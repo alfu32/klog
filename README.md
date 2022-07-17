@@ -17,6 +17,12 @@ The method logger.log(channelName, message) will place a message tagged with the
 
 Emits a StackTraceItem containing the message object on the channel
 ### LoggerMessageBroadcaster
+receives messages (StackTraceItems) from loggers and dispatches them to the LoggingEventListeners
+Should be configured at the application entry point.
+The configuration is done programmatically using the constructor.
+If you need a text file based configuration you should provide yourself a solution for parsing the text file configuration into a list of LoggingEventListener.
+Text based configurations are used to make the application admin-friendly.
+If you are the dev and the administrator there's no point on using text based config.
 #### constructor
 
 `val lmb = LoggerMessageBroadcaster(listeners: List<LoggerEventListener>)`
@@ -26,12 +32,14 @@ The lmb should have a single instance and be configured once.
 ### LoggerEventListener
 #### constructor
 
-`val lel = LoggerEventListener(
+```
+val lel = LoggerEventListener(
   printStream:PrintStream,
   filter:(i:StackTraceItem)->Boolean,
   toString: (i:StackTraceItem)->String,
-)`
-It receives StackTraceItems from the Broadcaster.
+)
+```
+receives StackTraceItems from the Broadcaster.
 If for a given message, the filter evaluates to true then it will print the string result of the toString function to the given print stream.
 
 Anything with a file descriptor can be opened as a print stream ( sysout, files, pipes )
