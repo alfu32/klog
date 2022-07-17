@@ -1,4 +1,4 @@
-# klog Kotlin Logging Framework
+# kLLog[killog] - light Kotlin Logging Framework
 
 logging framework written in Kotlin.
 
