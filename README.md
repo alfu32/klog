@@ -5,20 +5,22 @@ logging framework written in Kotlin.
 ## reactive architecture
 
 ```
-   | logger | --\                   /--> | listener |
-                 \> +------------+ /
-| logger | -------> | brodcaster | -------> | listener |
-               /--> +------------+ \
+many loggers         one broadcast         many listeners
+   | logger | --\      object        /--> | listener |
+                 \> +-------------+ /
+| logger | -------> | broadcaster | -------> | listener |
+               /--> +-------------+ \
    | logger |_/                     \--> | listener |
 
 ```
 
 The developer should use an instance of Logger
-inside each class/ function.
+inside each class/function.
 
 ```kotlin
 val logger=Logger.getInstance()
 ```
+
 The method logger.log(channelName, message) will place a message tagged with the channelName in the message broadcaster queue. The message broadcaster will react notifying the LoggerMessageListeners.
 
 ### Logger
