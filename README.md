@@ -22,50 +22,84 @@ val logger=Logger.getInstance()
 The method logger.log(channelName, message) will place a message tagged with the channelName in the message broadcaster queue. The message broadcaster will react notifying the LoggerMessageListeners.
 
 ### Logger
-#### ```kotlin
+
+```kotlin
 log(channelName: String, message: Serializable)
 ```
 
 Emits a StackTraceItem containing the message object on the channel
+
 ### LoggerMessageBroadcaster
+
 receives messages (StackTraceItems) from loggers and dispatches them to the LoggingEventListeners
+
 Should be configured at the application entry point.
 The configuration is done programmatically using the constructor.
-If you need a text file based configuration you should provide yourself a solution for parsing the text file configuration into a list of LoggingEventListener.
-Text based configurations are used to make the application admin-friendly.
-If you are the dev and the administrator there's no point on using text based config.
-#### constructor
+
+If you need a cofiguration based on text files (.properties,xml,json,ini,...etc. ) you can choose whatever solution you deem fit for the task:  parsing the text file configuration into a list of LoggingEventListener.
+
+Note: Text based configurations are used to make the application admin-friendly. If you are the dev and the administrator at the same time there's no point on using text based config.
+
+If you need to bind into a well known logging framework, you can do it at the subscriber ( event listener ) level.
+
+#### LogMessageBroadcaster constructor
 
 ```kotlin
-val lmb = LoggerMessageBroadcaster(listeners: List<LoggerEventListener>)
+val lmb = LogMessageBroadcaster(
+  listeners= listOf<LogEventListener>(
+    LogEventListener(
+      name="everything out to console",
+      printStream=System.out.getPrintWriter(),
+      filter= (i:StackTraceItem)->true,
+      toString= (i:StackTraceItem)-> i.toString(),
+    ),
+    LogEventListener(
+      name="httpErrors",
+      printStream=File("logs/http-error.log").getPrintWriter(),
+      filter= (i:StackTraceItem)-> i.className=="HttpConnection" && i.channelName=="error",
+      toString= (i:StackTraceItem)-> i.toString(),
+    ),
+  )
+)
 ```
 
 The lmb should have a single instance and be configured once.
 
-### LoggerEventListener
+### LogEventListener
 #### constructor
 
 ```kotlin
-val lel = LoggerEventListener(
-  printStream:PrintStream,
-  filter:(i:StackTraceItem)->Boolean,
-  toString: (i:StackTraceItem)->String,
+val lel = LogEventListener(
+  nam="some log event listener",
+  printWriter= System.out.getPrintWriter(),
+  filter=(i:StackTraceItem)->Boolean,
+  toString= (i:StackTraceItem)-> "${i.timestamp} ${i.channelName.uppercase()} ${i.className} ${i.methodName} ${i.filename}:${i.lineNumber} ${i.message.toString()}",
 )
 ```
-receives StackTraceItems from the Broadcaster.
-If for a given message, the filter evaluates to true then it will print the string result of the toString function to the given print stream.
+receives StackTraceItems from the LogEventBroadcaster.
 
-Anything with a file descriptor can be opened as a print stream ( sysout, files, pipes )
+If for a given message, the filter evaluates to true then it will println the result of the toString function with the given print writer.
+
+Anything with a file descriptor can be opened as a print writer ( sysout, files, pipes )
+
 #### predefined static stringifiers
-##### LoggerEventListener.toCsvString(i:StackTraceItem)->String
+##### csv
+```kotlin
+LoggerEventListener.toCsvString(i:StackTraceItem)->String
+```
 
-##### LoggerEventListener.toJsonString(i:StackTraceItem)->String
+##### json
+```kotlin
+LoggerEventListener.toJsonString(i:StackTraceItem)->String
+```
 
-##### LoggerEventListener.toXmlString(i:StackTraceItem)->String
-
+##### xml
+```kotlin
+LoggerEventListener.toXmlString(i:StackTraceItem)->String
+```
 
 # installation
-
+// TODO
 use  the script install.sh to clone and init a copy of this repository
 
 ```bash
