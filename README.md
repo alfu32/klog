@@ -2,9 +2,14 @@
 
 logging framework written in Kotlin.
 
-## architecture
+## reactive architecture
 
-It has a reactive architecture.
+```
+| logger | -> |            | -> | listener |
+| logger | -> | brodcaster | -> | listener |
+| logger | -> |            | -> | listener |
+
+```
 
 The developer should use an instance of Logger
 inside each class/ function.
