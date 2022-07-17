@@ -1,4 +1,4 @@
-package be.alfu32.kotlin.starter
+package be.alfu32.klog
 
 fun main(args: Array<String>){
     println("it works with args ${args.toList()}")
