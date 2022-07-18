@@ -5,7 +5,7 @@ fun main(args: Array<String>){
     args.forEachIndexed {
         i,arg -> println("""arg[$i]='$arg'""")
     }
-    val c = MyCalculator()
+    // val c = MyCalculator()
     val list = listOf(1,2,3,4,5)
     val group = list.groupBy{
         v -> if(v%2 == 0){"even"}else{"odd"}
@@ -13,5 +13,5 @@ fun main(args: Array<String>){
     val m = list.mapIndexed{ i,v -> "a=$v" }
     println("""m=$m""")
     println("grouped list ${group}")
-    println("""MyCalculator.sum($list) = ${c.sum(list)}""")
+    // println("""MyCalculator.sum($list) = ${c.sum(list)}""")
 }
