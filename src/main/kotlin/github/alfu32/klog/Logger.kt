@@ -1,12 +1,22 @@
 package github.alfu32.klog
 
-class Logger(
-    val lmb: LoggerMessageBroadcaster=LoggerMessageBroadcaster.getInstance()
-){}
+import java.io.PrintWriter
+interface Stringifiable{
+    override fun toString(): String
+}
+class Logger{
+    public fun log(channelName: String, message: Stringifiable){
+
+    }
+}
 
 class LoggerMessageBroadcaster(
-    val subscribers: List<LogMessageListener>
+    
 ){
+    companion object{
+        var subscribers = arrayListOf<LogMessageListener>()
+
+    }
 }
 
 class LogMessageListener(
