@@ -1,4 +1,4 @@
-![example workflow](https://github.com/alfu32/klog/actions/workflows/maven.yml/badge.svg
+![example workflow](https://github.com/alfu32/klog/actions/workflows/maven.yml/badge.svg)
 # kLLog[keelog] - light Kotlin Logging Framework
 
 logging framework written in Kotlin.
