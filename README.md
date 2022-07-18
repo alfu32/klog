@@ -1,3 +1,4 @@
+### status
 ![build](https://github.com/alfu32/klog/actions/workflows/build.yml/badge.svg)
 ![test](https://github.com/alfu32/klog/actions/workflows/test.yml/badge.svg)
 
