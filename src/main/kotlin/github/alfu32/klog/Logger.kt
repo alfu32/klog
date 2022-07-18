@@ -3,7 +3,7 @@ package github.alfu32.klog
 import java.io.PrintWriter
 
 class Logger{
-  public fun log(channelName: String, message: Object){
+  public fun log(channelName: String, message: Any){
     val lm = LogMessage(
       channelName=channelName,
       message=message,
@@ -42,7 +42,7 @@ class LogMessageListener(
 
 class LogMessage(
   val channelName: String,
-  val message:Object,
+  val message:Any,
 ){
   val place: StackTraceElement
   init{
