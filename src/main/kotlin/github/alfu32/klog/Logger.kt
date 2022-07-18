@@ -16,10 +16,10 @@ class LoggerMessageBroadcaster(
   
 ){
   companion object{
-    var subscribers = arrayListOf<LogMessageListener>()
+    var subscribers = listOf<LogMessageListener>()
     fun emit(lm:LogMessage){
       subscribers.forEach{
-        s -> {
+        s -> 
           if(s.filter(lm)){
             try{
               val msg = s.logMessageToString(lm)
@@ -28,13 +28,22 @@ class LoggerMessageBroadcaster(
               //DO NOTHING
             }
           }
-        }
       }
+    }
+
+    fun subscribe(ss: List<LogMessageListener>){
+        
+        ss.forEach{
+            s -> 
+            subscribers = subscribers.filter{ other -> other.name != s.name }
+        }
+        subscribers=subscribers + ss
     }
   }
 }
 
 class LogMessageListener(
+  val name: String,
   val printWriter: PrintWriter,
   val filter: (LogMessage)->Boolean,
   val logMessageToString: (LogMessage)->String,
