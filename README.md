@@ -2,7 +2,7 @@
 ![build](https://github.com/alfu32/klog/actions/workflows/build.yml/badge.svg)
 ![test](https://github.com/alfu32/klog/actions/workflows/test.yml/badge.svg)
 
-# kLLog[keelog] - light Kotlin Logging Framework
+# kLog[keelog] - light Kotlin Logging Framework
 
 logging framework written in Kotlin.
 
@@ -135,7 +135,7 @@ LoggerEventListener.toJsonString(i:LogMessage)->String
 ```kotlin
 LoggerEventListener.toXmlString(i:LogMessage)->String
 ```
-
+# interop with other logging frameworks 
 # installation
 // TODO
 use  the script install.sh to clone and init a copy of this repository
