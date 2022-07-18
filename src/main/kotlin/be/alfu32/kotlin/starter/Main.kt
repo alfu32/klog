@@ -1,4 +1,4 @@
-package be.alfu32.klog
+package github.alfu32.klog
 
 fun main(args: Array<String>){
     println("it works with args ${args.toList()}")
