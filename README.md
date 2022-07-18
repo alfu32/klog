@@ -4,15 +4,47 @@ logging framework written in Kotlin.
 
 ## reactive architecture
 
+Flowchart
+```mermaid
+  flowchart LR
+
+  A[Logger] -->|LogMessage| N[LogEventBroadcaster]
+  B[Logger] -->|LogMessage| N[LogEventBroadcaster]
+  C[Logger] -->|LogMessage| N[LogEventBroadcaster]
+  N[LogEventBroadcaster]-->|LogMessage| X[LogEventListener]
+  N[LogEventBroadcaster]-->|LogMessage| Y[LogEventListener]
+  N[LogEventBroadcaster]-->|LogMessage| Z[LogEventListener]
 ```
-many loggers         one broadcast         many listeners
-   | logger | --\      object        /--> | listener |
-                 \> +-------------+ /
-| logger | -------> | broadcaster | -------> | listener |
-               /--> +-------------+ \
-   | logger |_/                     \--> | listener |
+
+Class Diagram
+```mermaid
+  classDiagram
+  class Logger{
+    LogEventBroadcaster broadcaster
+    Logger Logger()
+    log()
+  }
+
+  class LogEventBroadcaster{
+    LogEventBroadcaster getInstance()
+    LogEventBroadcaster(List<LogEventListener> subscribers)
+    List<LogEventListener> subscribers
+  }
+
+  class LogEventListener{
+    PrintWriter printWriter
+    filter()
+    itemToString()
+  }
+  class LogMessage{
+    <StackTraceElement>
+    String channelName
+    Serializable message
+    List<StackTraceElement> stack
+  }
 
 ```
+
 
 The developer should use an instance of Logger
 inside each class/function.
@@ -21,7 +53,7 @@ inside each class/function.
 val logger=Logger.getInstance()
 ```
 
-The method logger.log(channelName, message) will place a message tagged with the channelName in the message broadcaster queue. The message broadcaster will react notifying the LoggerMessageListeners.
+The method logger.log(channelName, message) will build a `LogMessage` and place it in the message broadcaster queue. The message broadcaster will react notifying its subscribers (`LoggerMessageListener`s).
 
 ### Logger
 
@@ -29,11 +61,11 @@ The method logger.log(channelName, message) will place a message tagged with the
 log(channelName: String, message: Serializable)
 ```
 
-Emits a StackTraceItem containing the message object on the channel
+Emits a `LogMessage` containing the message object.
 
 ### LoggerMessageBroadcaster
 
-receives messages (StackTraceItems) from loggers and dispatches them to the LoggingEventListeners
+receives messages (`LogMessage`s) from loggers and dispatches them to the `LoggingEventListener`s
 
 Should be configured at the application entry point.
 The configuration is done programmatically using the constructor.
@@ -52,20 +84,20 @@ val lmb = LogMessageBroadcaster(
     LogEventListener(
       name="everything out to console",
       printStream=System.out.getPrintWriter(),
-      filter= (i:StackTraceItem)->true,
-      toString= (i:StackTraceItem)-> i.toString(),
+      filter= (i:LogMessage)->true,
+      toString= (i:LogMessage)-> i.toString(),
     ),
     LogEventListener(
       name="httpErrors",
       printStream=File("logs/http-error.log").getPrintWriter(),
-      filter= (i:StackTraceItem)-> i.className=="HttpConnection" && i.channelName=="error",
-      toString= (i:StackTraceItem)-> i.toString(),
+      filter= (i:LogMessage)-> i.className=="HttpConnection" && i.channelName=="error",
+      toString= (i:LogMessage)-> i.toString(),
     ),
   )
 )
 ```
 
-The lmb should have a single instance and be configured once.
+The LogMessageBroadcaster is static, it has a single instance and should  be configured once ( in main f.i. ).
 
 ### LogEventListener
 #### constructor
@@ -74,30 +106,30 @@ The lmb should have a single instance and be configured once.
 val lel = LogEventListener(
   nam="some log event listener",
   printWriter= System.out.getPrintWriter(),
-  filter=(i:StackTraceItem)->Boolean,
-  toString= (i:StackTraceItem)-> "${i.timestamp} ${i.channelName.uppercase()} ${i.className} ${i.methodName} ${i.filename}:${i.lineNumber} ${i.message.toString()}",
+  filter=(i:LogMessage)->Boolean,
+  toString= (i:LogMessage)-> "${i.timestamp} ${i.channelName.uppercase()} ${i.className} ${i.methodName} ${i.filename}:${i.lineNumber} ${i.message.toString()}",
 )
 ```
-receives StackTraceItems from the LogEventBroadcaster.
+receives `LogMessage`s from the `LogEventBroadcaster`.
 
-If for a given message, the filter evaluates to true then it will println the result of the toString function with the given print writer.
+If for a given message, the filter evaluates to true then it will println the result of the toString function with the given `PrintWriter`.
 
-Anything with a file descriptor can be opened as a print writer ( sysout, files, pipes )
+Anything with a file descriptor can be opened as a `PrintWriter` ( sysout, files, pipes )
 
 #### predefined static stringifiers
 ##### csv
 ```kotlin
-LoggerEventListener.toCsvString(i:StackTraceItem)->String
+LoggerEventListener.toCsvString(i:LogMessage)->String
 ```
 
 ##### json
 ```kotlin
-LoggerEventListener.toJsonString(i:StackTraceItem)->String
+LoggerEventListener.toJsonString(i:LogMessage)->String
 ```
 
 ##### xml
 ```kotlin
-LoggerEventListener.toXmlString(i:StackTraceItem)->String
+LoggerEventListener.toXmlString(i:LogMessage)->String
 ```
 
 # installation
