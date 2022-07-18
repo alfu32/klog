@@ -1,5 +1,5 @@
-![build](https://github.com/alfu32/klog/actions/workflows/maven.yml/badge.svg?job=build)
-![build](https://github.com/alfu32/klog/actions/workflows/maven.yml/badge.svg?job=test)
+![build](https://github.com/alfu32/klog/actions/workflows/build.yml/badge.svg)
+![test](https://github.com/alfu32/klog/actions/workflows/test.yml/badge.svg)
 
 # kLLog[keelog] - light Kotlin Logging Framework
 
