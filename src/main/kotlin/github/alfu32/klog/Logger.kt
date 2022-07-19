@@ -31,8 +31,7 @@ class LoggerMessageBroadcaster(
       }
     }
 
-    fun subscribe(ss: List<LogMessageListener>){
-        
+    fun subscribe(ss: List<LogMessageListener>) {
         ss.forEach{
             s -> 
             subscribers = subscribers.filter{ other -> other.name != s.name }
@@ -53,9 +52,39 @@ class LogMessage(
   val channelName: String,
   val message:Any,
 ){
-  val place: StackTraceElement
+  var timestamp: Long
+  var fileName: String
+  var lineNumber: Int
+  var moduleName: String?
+  var moduleVersion: String?
+  var classLoaderName: String
+  var className: String
+  var methodName: String
   init{
+    timestamp = System.currentTimeMillis()
     val p = Throwable()
-    place=p.getStackTrace()[1]
+    val place: StackTraceElement = p.stackTrace[1]
+    fileName = place.fileName
+    lineNumber = place.lineNumber
+    moduleName = place.moduleName
+    moduleVersion = place.moduleVersion
+    classLoaderName = place.classLoaderName
+    className = place.className
+    methodName = place.methodName
+  }
+  override fun toString():String{
+    return """
+      LogMessage{
+        channelName: $channelName,
+        message: $message,
+        fileName: $fileName,
+        lineNumber: $lineNumber,
+        moduleName: $moduleName,
+        moduleVersion: $moduleVersion,
+        classLoaderName: $classLoaderName,
+        className: $className,
+        methodName: $methodName,
+      }
+    """.trimIndent()
   }
 }
