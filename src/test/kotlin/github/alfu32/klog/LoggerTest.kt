@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import java.io.File
+import java.io.PrintWriter
 
 internal class LoggerTest {
 
