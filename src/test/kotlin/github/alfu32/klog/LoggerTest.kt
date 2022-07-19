@@ -3,24 +3,31 @@ package github.alfu32.klog
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import java.io.File
+import java.io.PrintWriter
 
 internal class LoggerTest {
 
     @Test
-    fun testInit() {
-        println("=== test LoggerTest.testInit =========================")
-        val lm=LogMessage("test", "message")
-        println(lm)
-        assertEquals("test",lm.channelName)
-        assertEquals("message",lm.message)
-        assertEquals("LoggerTest.kt",lm.fileName)
-        assertEquals(12,lm.lineNumber)
-        assertNull(lm.moduleName)
-        assertNull(lm.moduleVersion)
-        assertEquals("app",lm.classLoaderName)
-        assertEquals("github.alfu32.klog.LoggerTest",lm.className)
-        assertEquals("testInit",lm.methodName)
-        println("=== done LoggerTest.testInit -------------------------")
+    fun testSubscribe() {
+        val lmb=LoggerMessageBroadcaster
+        lmb.subscribe(listOf(
+            LogMessageListener(
+                name="console",
+                printWriter=PrintWriter(System.out, true),
+                filter={true},
+                logMessageToString={ it.toString() }
+            ),
+            LogMessageListener(
+                name="file",
+                printWriter=File("log").printWriter(),
+                filter={true},
+                logMessageToString={ it.toString() }
+            ),
+        ))
+        println(lmb.subscribers)
+        val l=Logger()
+        l.log("debug","message")
     }
     @Test
     fun testRun02() {
