@@ -75,6 +75,7 @@ class LogMessage(
   override fun toString():String{
     return """
       LogMessage{
+        timestamp: $timestamp,
         channelName: $channelName,
         message: $message,
         fileName: $fileName,
