@@ -48,7 +48,11 @@ class LogMessageListener(
   val printWriter: PrintWriter,
   val filter: (LogMessage)->Boolean,
   val logMessageToString: (LogMessage)->String,
-)
+){
+  override fun toString():String{
+    return name;
+  }
+}
 
 class LogMessage(
   val channelName: String,
