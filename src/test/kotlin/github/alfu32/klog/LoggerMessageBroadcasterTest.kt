@@ -3,6 +3,7 @@ package github.alfu32.klog
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import java.io.PrintWriter
+import java.io.File
 
 internal class LoggerMessageBroadcasterTest {
 
