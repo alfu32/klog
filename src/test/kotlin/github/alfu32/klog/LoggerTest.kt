@@ -7,7 +7,7 @@ import java.io.File
 
 internal class LoggerTest {
 
-    @ Test
+    @Test
     fun testSubscribe() {
         val lmb=LoggerMessageBroadcaster
         lmb.subscribe(listOf(
