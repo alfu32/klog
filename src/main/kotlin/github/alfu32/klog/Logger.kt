@@ -16,7 +16,9 @@ class LoggerMessageBroadcaster(
   
 ){
   companion object{
+    
     var subscribers = listOf<LogMessageListener>()
+
     fun emit(lm:LogMessage){
       subscribers.forEach{
         s -> 
