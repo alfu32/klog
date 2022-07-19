@@ -3,6 +3,7 @@ package github.alfu32.klog
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import java.io.File
 
 internal class LoggerTest {
 
@@ -25,7 +26,7 @@ internal class LoggerTest {
         ))
         println(lmb.subscribers)
         val l=Logger()
-        
+        l.log("debug","message")
     }
     @Test
     fun testRun02() {
