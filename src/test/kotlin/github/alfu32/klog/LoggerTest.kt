@@ -9,8 +9,9 @@ import java.io.PrintWriter
 internal class LoggerTest {
 
     @Test
-    fun testSubscribe() {
+    fun testLog() {
         val lmb=LoggerMessageBroadcaster
+        var lm:LogMessage?=null
         lmb.subscribe(listOf(
             LogMessageListener(
                 name="console",
@@ -22,13 +23,27 @@ internal class LoggerTest {
                 name="file",
                 printWriter=File("log").printWriter(),
                 filter={true},
-                logMessageToString={ it.toString() }
+                logMessageToString={
+                    it ->
+                        lm=it 
+                        it.toString()
+                }
             ),
         ))
-        println(lmb.subscribers)
+        // test log
         val l=Logger()
         l.log("debug","message")
+        assertEquals("debug", lm?.channelName)
+        assertEquals("message", lm?.message)
+        assertEquals("LoggerTest.kt", lm?.fileName)
+        assertEquals(35, lm?.lineNumber)
+        assertNull(lm?.moduleName)
+        assertNull(lm?.moduleVersion)
+        assertEquals("app", lm?.classLoaderName)
+        assertEquals("github.alfu32.klog.LoggerTest", lm?.className)
+        assertEquals("testLog", lm?.methodName)        
     }
+
     @Test
     fun testRun02() {
         println("test run 02")

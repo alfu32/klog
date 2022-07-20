@@ -69,7 +69,10 @@ class LogMessage(
   init{
     timestamp = System.currentTimeMillis()
     val p = Throwable()
-    val place: StackTraceElement = p.stackTrace[1]
+    var place: StackTraceElement = p.stackTrace[1]
+    if(place.className=="github.alfu32.klog.Logger"){
+      place=p.stackTrace[2]
+    }
     fileName = place.fileName
     lineNumber = place.lineNumber
     moduleName = place.moduleName
