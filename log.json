@@ -1,0 +1,12 @@
+{
+  "timestamp":1658300710304,
+  "channelName":"debug",
+  "fileName":"LoggerTest.kt",
+  "lineNumber":53,
+  "moduleName":"null",
+  "moduleVersion":"null",
+  "classLoaderName":"app",
+  "className":"github.alfu32.klog.LoggerTest",
+  "methodName":"testLog",
+  "message":"message",
+}

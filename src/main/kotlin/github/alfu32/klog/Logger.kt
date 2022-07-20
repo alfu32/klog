@@ -26,6 +26,7 @@ class LoggerMessageBroadcaster(
             try{
               val msg = s.logMessageToString(lm)
               s.printWriter.println(msg)
+              s.printWriter.flush()
             }catch(x: Exception){
               //DO NOTHING
             }
@@ -43,12 +44,89 @@ class LoggerMessageBroadcaster(
   }
 }
 
+
+
 class LogMessageListener(
   val name: String,
   val printWriter: PrintWriter,
   val filter: (LogMessage)->Boolean,
   val logMessageToString: (LogMessage)->String,
 ){
+  companion object {
+    val CSV_STRINGIFIER: (LogMessage)->String = {
+      lm:LogMessage ->
+      """
+      ${
+        lm.timestamp
+      },${
+        lm.channelName
+      },${
+        lm.fileName
+      },${
+        lm.lineNumber
+      },${
+        lm.moduleName
+      },${
+        lm.moduleVersion
+      },${
+        lm.classLoaderName
+      },${
+        lm.className
+      },${
+        lm.methodName
+      },"${
+        lm.message.toString()
+        .replace(Regex("\n"),"\\n")
+        .replace(Regex("\r"),"\\r")
+        .replace(Regex("\""),"\\\"")
+      }",
+      """.trimIndent()
+    }
+    val JSON_STRINGIFIER: (LogMessage)->String = {
+      lm:LogMessage ->
+      """
+      {
+        "timestamp":${lm.timestamp},
+        "channelName":"${lm.channelName}",
+        "fileName":"${lm.fileName}",
+        "lineNumber":${lm.lineNumber},
+        "moduleName":"${lm.moduleName}",
+        "moduleVersion":"${lm.moduleVersion}",
+        "classLoaderName":"${lm.classLoaderName}",
+        "className":"${lm.className}",
+        "methodName":"${lm.methodName}",
+        "message":"${
+          lm.message.toString()
+            .replace(Regex("\n"),"\\n")
+            .replace(Regex("\r"),"\\r")
+            .replace(Regex("\""),"\\\"")
+        }"
+      }
+      """.trimIndent()
+    }
+    val XML_STRINGIFIER: (LogMessage)->String = {
+      lm:LogMessage ->
+      """
+      <log>
+        <timestamp>${lm.timestamp}</timestamp>
+        <channelName>${lm.channelName}</channelName>
+        <fileName>${lm.fileName}</fileName>
+        <lineNumber>${lm.lineNumber}</lineNumber>
+        <moduleName>${lm.moduleName}</moduleName>
+        <moduleVersion>${lm.moduleVersion}</moduleVersion>
+        <classLoaderName>${lm.classLoaderName}</classLoaderName>
+        <className>${lm.className}</className>
+        <methodName>${lm.methodName}</methodName>
+        <message>${
+          lm.message.toString()
+            .replace(Regex("<"),"&lt;")
+            .replace(Regex(">"),"&gt;")
+            .replace(Regex("\""),"\\\"")
+        }</message>
+      </log>
+      """.trimIndent()
+    }
+  }
   override fun toString():String{
     return name;
   }

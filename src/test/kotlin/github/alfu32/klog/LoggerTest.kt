@@ -29,6 +29,24 @@ internal class LoggerTest {
                         it.toString()
                 }
             ),
+            LogMessageListener(
+                name="file-csv",
+                printWriter=File("log.csv").printWriter(),
+                filter={true},
+                logMessageToString=LogMessageListener.CSV_STRINGIFIER
+            ),
+            LogMessageListener(
+                name="file-json",
+                printWriter=File("log.json").printWriter(),
+                filter={true},
+                logMessageToString=LogMessageListener.JSON_STRINGIFIER
+            ),
+            LogMessageListener(
+                name="file-xml",
+                printWriter=File("log.xml").printWriter(),
+                filter={true},
+                logMessageToString=LogMessageListener.XML_STRINGIFIER
+            ),
         ))
         // test log
         val l=Logger()
@@ -36,7 +54,7 @@ internal class LoggerTest {
         assertEquals("debug", lm?.channelName)
         assertEquals("message", lm?.message)
         assertEquals("LoggerTest.kt", lm?.fileName)
-        assertEquals(35, lm?.lineNumber)
+        assertEquals(53, lm?.lineNumber)
         assertNull(lm?.moduleName)
         assertNull(lm?.moduleVersion)
         assertEquals("app", lm?.classLoaderName)

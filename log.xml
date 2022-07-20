@@ -1,0 +1,12 @@
+<log>
+  <timestamp>1658300710304</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>53</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
