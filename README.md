@@ -89,13 +89,13 @@ LogMessageBroadcaster.subscribe(
   listeners= listOf<LogEventListener>(
     LogEventListener(
       name="everything out to console",
-      printStream=System.out.getPrintWriter(),
+      printStream= PrintWriter(System.out, true),
       filter= (i:LogMessage)->true,
       toString= (i:LogMessage)-> i.toString(),
     ),
     LogEventListener(
       name="httpErrors",
-      printStream=File("logs/http-error.log").getPrintWriter(),
+      printStream=File("logs/http-error.log").printWriter(),
       filter= (i:LogMessage)-> i.className=="HttpConnection" && i.channelName=="error",
       toString= (i:LogMessage)-> i.toString(),
     ),
