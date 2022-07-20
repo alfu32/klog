@@ -54,10 +54,12 @@ The developer should use an instance of Logger
 inside each class/function.
 
 ```kotlin
-val logger=Logger.getInstance()
+val logger=Logger()
 ```
+The logger instance uses the LogMessageBroadcast to emit LogMessages.
+The log message is dispatched to each LogMessageListener.
 
-The method logger.log(channelName, message) will build a `LogMessage` and place it in the message broadcaster queue. The message broadcaster will react notifying its subscribers (`LoggerMessageListener`s).
+The method logger.log(channelName, message) will build a `LogMessage` and emit it through the message broadcaster.
 
 ### Logger
 
@@ -65,7 +67,7 @@ The method logger.log(channelName, message) will build a `LogMessage` and place 
 log(channelName: String, message: Serializable)
 ```
 
-Emits a `LogMessage` containing the message object.
+Emits a `LogMessage` through the message broker.
 
 ### LoggerMessageBroadcaster
 
@@ -83,7 +85,7 @@ If you need to bind into a well known logging framework, you can do it at the su
 #### LogMessageBroadcaster constructor
 
 ```kotlin
-val lmb = LogMessageBroadcaster(
+LogMessageBroadcaster.subscribe(
   listeners= listOf<LogEventListener>(
     LogEventListener(
       name="everything out to console",
@@ -101,7 +103,8 @@ val lmb = LogMessageBroadcaster(
 )
 ```
 
-The LogMessageBroadcaster is static, it has a single instance and should  be configured once ( in main f.i. ).
+The LogMessageBroadcaster is static.
+the subscribe method will add subscribers replacing the existing ones that have the same name.
 
 ### LogEventListener
 #### constructor
@@ -123,17 +126,17 @@ Anything with a file descriptor can be opened as a `PrintWriter` ( sysout, files
 #### predefined static stringifiers
 ##### csv
 ```kotlin
-LoggerEventListener.toCsvString(i:LogMessage)->String
+LoggerEventListener.CSV_STRINGIFIER(i:LogMessage)->String
 ```
 
 ##### json
 ```kotlin
-LoggerEventListener.toJsonString(i:LogMessage)->String
+LoggerEventListener.JSON_STRINGIFIER(i:LogMessage)->String
 ```
 
 ##### xml
 ```kotlin
-LoggerEventListener.toXmlString(i:LogMessage)->String
+LoggerEventListener.XML_STRINGIFIER(i:LogMessage)->String
 ```
 # interop with other logging frameworks 
 # installation
