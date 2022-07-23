@@ -1,5 +1,5 @@
 {
-  "timestamp":1658300710304,
+  "timestamp":1658576585264,
   "channelName":"debug",
   "fileName":"LoggerTest.kt",
   "lineNumber":53,
@@ -8,5 +8,29 @@
   "classLoaderName":"app",
   "className":"github.alfu32.klog.LoggerTest",
   "methodName":"testLog",
-  "message":"message",
+  "message":"message"
+}
+{
+  "timestamp":1658577050195,
+  "channelName":"debug",
+  "fileName":"LoggerTest.kt",
+  "lineNumber":54,
+  "moduleName":"null",
+  "moduleVersion":"null",
+  "classLoaderName":"app",
+  "className":"github.alfu32.klog.LoggerTest",
+  "methodName":"testLog",
+  "message":"message"
+}
+{
+  "timestamp":1658577177278,
+  "channelName":"debug",
+  "fileName":"LoggerTest.kt",
+  "lineNumber":54,
+  "moduleName":"null",
+  "moduleVersion":"null",
+  "classLoaderName":"app",
+  "className":"github.alfu32.klog.LoggerTest",
+  "methodName":"testLog",
+  "message":"message"
 }

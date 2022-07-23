@@ -1,8 +1,32 @@
 <log>
-  <timestamp>1658300710304</timestamp>
+  <timestamp>1658576585264</timestamp>
   <channelName>debug</channelName>
   <fileName>LoggerTest.kt</fileName>
   <lineNumber>53</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658577050195</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>54</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658577177278</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>54</lineNumber>
   <moduleName>null</moduleName>
   <moduleVersion>null</moduleVersion>
   <classLoaderName>app</classLoaderName>

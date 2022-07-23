@@ -1,6 +1,7 @@
 package github.alfu32.klog
 
 import java.io.PrintWriter
+import  java.io.File
 
 class Logger{
   public fun log(channelName: String, message: Any){
@@ -25,10 +26,13 @@ class LoggerMessageBroadcaster(
           if(s.filter(lm)){
             try{
               val msg = s.logMessageToString(lm)
-              s.printWriter.println(msg)
-              s.printWriter.flush()
+              val p = s.printWriter()
+              p.println(msg)
+              p.flush()
+              p.close()
             }catch(x: Exception){
               //DO NOTHING
+              System.out.println("error closing printWriter ${s.name}")
             }
           }
       }
@@ -44,15 +48,52 @@ class LoggerMessageBroadcaster(
   }
 }
 
+class PrintWriterFactory(
+  val printWriterFn: ()->PrintWriter,
+){
 
+}
 
 class LogMessageListener(
   val name: String,
-  val printWriter: PrintWriter,
+  val printWriter: ()->PrintWriter,
   val filter: (LogMessage)->Boolean,
   val logMessageToString: (LogMessage)->String,
 ){
+  ////// public fun finalse(){
+  //////   try{
+  //////     System.out.println(
+  //////       """finalising $name print writer"""
+  //////     )
+  //////     printWriter.flush()
+  //////     printWriter.close()
+  //////     System.out.println(
+  //////       """finalised $name print writer"""
+  //////     )        
+  //////   }catch(x:Exception){
+  //////     System.out.println(
+  //////       """Error $x finalising $name print writer"""
+  //////     )
+  //////     x.printStackTrace(System.out)
+  //////   }
+  ////// }
+
   companion object {
+
+    fun journaledFile(
+      name: String,
+      filenameFn: ()->String,
+      logMessageToStringFn: (LogMessage)->String,
+      filterFn: (LogMessage)->Boolean,
+    ):LogMessageListener{
+      return LogMessageListener(
+        name=name,
+        printWriter={File(filenameFn()).printWriter()},
+        filter=filterFn,
+        logMessageToString=logMessageToStringFn,
+      )
+    }
+
     val CSV_STRINGIFIER: (LogMessage)->String = {
       lm:LogMessage ->
       """
