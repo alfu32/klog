@@ -21,5 +21,20 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: |
+        mvn -B package --file pom.xml
+        ls -la target
+    - name: Archive test artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist-jar
+        path: |
+          target/**/*.jar
+    - name: Archive log artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: logs-text
+        path: |
+          log*.*
+    
 
