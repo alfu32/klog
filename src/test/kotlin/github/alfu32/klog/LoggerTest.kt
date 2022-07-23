@@ -57,7 +57,7 @@ internal class LoggerTest {
         assertEquals("debug", lm?.channelName)
         assertEquals("message", lm?.message)
         assertEquals("LoggerTest.kt", lm?.fileName)
-        assertEquals(54, lm?.lineNumber)
+        assertEquals(56, lm?.lineNumber)
         assertNull(lm?.moduleName)
         assertNull(lm?.moduleVersion)
         assertEquals("app", lm?.classLoaderName)
