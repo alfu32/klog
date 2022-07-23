@@ -70,7 +70,7 @@ internal class LoggerTest {
             LogMessageListener(
                 name="journaled-json",
                 printWriter={
-                    val dateStamp=DateTimeFormater.ofPattern("yyyy-MM-dd").format(Instant.now())
+                    val dateStamp=DateTimeFormatter.ofPattern("yyyy-MM-dd").format(Instant.now())
                     val fn = "log-json-$dateStamp.json"
                     PrintWriter(
                         FileOutputStream(
