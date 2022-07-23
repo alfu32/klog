@@ -6,7 +6,7 @@ import kotlin.test.assertNull
 import java.io.File
 import java.io.PrintWriter
 import java.io.FileOutputStream
-import java.time.DateTimeFormatter
+import java.time.format.DateTimeFormatter
 import java.time.Instant
 
 internal class LoggerTest {
