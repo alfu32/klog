@@ -36,7 +36,7 @@ Class Diagram
   }
 
   class LogEventListener{
-    PrintWriter printWriter
+    PrintWriter printWriter()
     filter()
     itemToString()
   }
@@ -71,12 +71,12 @@ Emits a `LogMessage` through the message broker.
 
 ### LoggerMessageBroadcaster
 
-receives messages (`LogMessage`s) from loggers and dispatches them to the `LoggingEventListener`s
+receives messages (`LogMessage`s) from loggers and dispatches them to the `LogMessageListener`s
 
 Should be configured at the application entry point.
 The configuration is done programmatically using the constructor.
 
-If you need a cofiguration based on text files (.properties,xml,json,ini,...etc. ) you can choose whatever solution you deem fit for the task:  parsing the text file configuration into a list of LoggingEventListener.
+If you need a cofiguration based on text files (.properties,xml,json,ini,...etc. ) you can choose whatever solution you deem fit for the task:  parsing the text file configuration into a list of LogMessageListener.
 
 Note: Text based configurations are used to make the application admin-friendly. If you are the dev and the administrator at the same time there's no point on using text based config.
 
@@ -85,17 +85,23 @@ If you need to bind into a well known logging framework, you can do it at the su
 #### LogMessageBroadcaster constructor
 
 ```kotlin
+import java.io.File
+import java.io.FileOutputStream
+import java.io.PrintWriter
+
+..........
+
 LogMessageBroadcaster.subscribe(
   listeners= listOf<LogEventListener>(
-    LogEventListener(
+    LogMessageListener(
       name="everything out to console",
-      printStream= PrintWriter(System.out, true),
+      printWriter= {PrintWriter(System.out, true)},
       filter= (i:LogMessage)->true,
       toString= (i:LogMessage)-> i.toString(),
     ),
-    LogEventListener(
+    LogMessageListener(
       name="httpErrors",
-      printStream=File("logs/http-error.log").printWriter(),
+      printWriter={PrintWriter(FileOutputStream(File("logs/http-error.log"),true),true)},
       filter= (i:LogMessage)-> i.className=="HttpConnection" && i.channelName=="error",
       toString= (i:LogMessage)-> i.toString(),
     ),
@@ -106,37 +112,61 @@ LogMessageBroadcaster.subscribe(
 The LogMessageBroadcaster is static.
 the subscribe method will add subscribers replacing the existing ones that have the same name.
 
-### LogEventListener
+### LogMessageListener
 #### constructor
 
 ```kotlin
-val lel = LogEventListener(
-  nam="some log event listener",
-  printWriter= System.out.getPrintWriter(),
+val lel = LogMessageListener(
+  name="some log event listener",
+  printWriter= {PrintWriter(System.out,true)},
   filter=(i:LogMessage)->Boolean,
   toString= (i:LogMessage)-> "${i.timestamp} ${i.channelName.uppercase()} ${i.className} ${i.methodName} ${i.filename}:${i.lineNumber} ${i.message.toString()}",
 )
 ```
-receives `LogMessage`s from the `LogEventBroadcaster`.
+receives `LogMessage`s from the `LogMessageBroadcaster`.
 
-If for a given message, the filter evaluates to true then it will println the result of the toString function with the given `PrintWriter`.
+If for a given message, the filter evaluates to true then it will println the result of the toString function using one instance from the LogMessageListener.printWriter() mixin.
 
 Anything with a file descriptor can be opened as a `PrintWriter` ( sysout, files, pipes )
+
+The factory function opens the possibility to journal the files like this
+
+```kotlin
+ val lel = LogMessageListener(
+  name="journaled-json",
+  printWriter={
+    val dateStamp=DateTimeFormater.ofPattern("yyyy-MM-dd").format(Instant.now())
+    val fn = "log-json-$dateStamp.json"
+    PrintWriter(
+      FileOutputStream(
+        File(fn),
+        true,/*open in append mode
+          if false or absent it will
+          rewrite the file every time
+          a log will be printed*/
+      ),
+      true,/* autoflush */
+    )
+  },
+  filter={true},
+  toString=LogMessageListener.JSON_STRINGIFIER,
+ )
+```
 
 #### predefined static stringifiers
 ##### csv
 ```kotlin
-LoggerEventListener.CSV_STRINGIFIER(i:LogMessage)->String
+LogMessageListener.CSV_STRINGIFIER(i:LogMessage)->String
 ```
 
 ##### json
 ```kotlin
-LoggerEventListener.JSON_STRINGIFIER(i:LogMessage)->String
+LogMessageListener.JSON_STRINGIFIER(i:LogMessage)->String
 ```
 
 ##### xml
 ```kotlin
-LoggerEventListener.XML_STRINGIFIER(i:LogMessage)->String
+LogMessageListener.XML_STRINGIFIER(i:LogMessage)->String
 ```
 # interop with other logging frameworks 
 # installation

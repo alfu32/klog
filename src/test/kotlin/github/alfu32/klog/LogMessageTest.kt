@@ -22,12 +22,4 @@ internal class LogMessageTest {
         assertEquals("testInit", lm.methodName)
         println("=== done LogMessageTest.testInit -------------------------")
     }
-
-    @Test
-    fun testRun02() {
-        println("test run 02")
-        val expected = 42
-        assertEquals(expected, 40 + 2 )
-
-    }
 }

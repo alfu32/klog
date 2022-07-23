@@ -5,6 +5,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import java.io.File
 import java.io.PrintWriter
+import java.io.FileOutputStream
+import java.time.DateTimeFormatter
+import java.time.Instant
 
 internal class LoggerTest {
 
@@ -15,13 +18,13 @@ internal class LoggerTest {
         lmb.subscribe(listOf(
             LogMessageListener(
                 name="console",
-                printWriter=PrintWriter(System.out, true),
+                printWriter={PrintWriter(System.out, true)},
                 filter={true},
                 logMessageToString={ it.toString() }
             ),
             LogMessageListener(
                 name="file",
-                printWriter=File("log").printWriter(),
+                printWriter={PrintWriter(FileOutputStream(File("log"),true),true)},
                 filter={true},
                 logMessageToString={
                     it ->
@@ -31,19 +34,19 @@ internal class LoggerTest {
             ),
             LogMessageListener(
                 name="file-csv",
-                printWriter=File("log.csv").printWriter(),
+                printWriter={PrintWriter(FileOutputStream(File("log.csv"),true),true)},
                 filter={true},
                 logMessageToString=LogMessageListener.CSV_STRINGIFIER
             ),
             LogMessageListener(
                 name="file-json",
-                printWriter=File("log.json").printWriter(),
+                printWriter={PrintWriter(FileOutputStream(File("log.json"),true),true)},
                 filter={true},
                 logMessageToString=LogMessageListener.JSON_STRINGIFIER
             ),
             LogMessageListener(
                 name="file-xml",
-                printWriter=File("log.xml").printWriter(),
+                printWriter={PrintWriter(FileOutputStream(File("log.xml"),true),true)},
                 filter={true},
                 logMessageToString=LogMessageListener.XML_STRINGIFIER
             ),
@@ -54,19 +57,35 @@ internal class LoggerTest {
         assertEquals("debug", lm?.channelName)
         assertEquals("message", lm?.message)
         assertEquals("LoggerTest.kt", lm?.fileName)
-        assertEquals(53, lm?.lineNumber)
+        assertEquals(54, lm?.lineNumber)
         assertNull(lm?.moduleName)
         assertNull(lm?.moduleVersion)
         assertEquals("app", lm?.classLoaderName)
         assertEquals("github.alfu32.klog.LoggerTest", lm?.className)
         assertEquals("testLog", lm?.methodName)        
     }
-
     @Test
-    fun testRun02() {
-        println("test run 02")
-        val expected = 42
-        assertEquals(expected, 40 + 2 )
-
+    fun testJournaled(){
+        LogMessageBroadcaster.subscribe(listOf(
+            LogMessageListener(
+                name="journaled-json",
+                printWriter={
+                    val dateStamp=DateTimeFormater.ofPattern("yyyy-MM-dd").format(Instant.now())
+                    val fn = "log-json-$dateStamp.json"
+                    PrintWriter(
+                        FileOutputStream(
+                            File(fn),
+                            true,/*open in append mode
+                            if false or absent it will
+                            rewrite the file every time
+                            a log will be printed*/
+                        ),
+                        true,/* autoflush */
+                    )
+                },
+                filter={true},
+                logMessageToString=LogMessageListener.JSON_STRINGIFIER,
+            )
+        ))
     }
 }
