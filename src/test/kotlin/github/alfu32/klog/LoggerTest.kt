@@ -66,7 +66,7 @@ internal class LoggerTest {
     }
     @Test
     fun testJournaled(){
-        LogMessageBroadcaster.subscribe(listOf(
+        LoggerMessageBroadcaster.subscribe(listOf(
             LogMessageListener(
                 name="journaled-json",
                 printWriter={
