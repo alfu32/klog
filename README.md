@@ -12,30 +12,30 @@ Flowchart
 ```mermaid
   flowchart LR
 
-  A[Logger] -->|LogMessage| N[LogEventBroadcaster]
-  B[Logger] -->|LogMessage| N[LogEventBroadcaster]
-  C[Logger] -->|LogMessage| N[LogEventBroadcaster]
-  N[LogEventBroadcaster]-->|LogMessage| X[LogEventListener]
-  N[LogEventBroadcaster]-->|LogMessage| Y[LogEventListener]
-  N[LogEventBroadcaster]-->|LogMessage| Z[LogEventListener]
+  A[Logger] -->|LogMessage| N[LogMessageBroadcaster]
+  B[Logger] -->|LogMessage| N[LogMessageBroadcaster]
+  C[Logger] -->|LogMessage| N[LogMessageBroadcaster]
+  N[LogMessageBroadcaster]-->|LogMessage| X[LogMessageListener]
+  N[LogMessageBroadcaster]-->|LogMessage| Y[LogMessageListener]
+  N[LogMessageBroadcaster]-->|LogMessage| Z[LogMessageListener]
 ```
 
 Class Diagram
 ```mermaid
   classDiagram
   class Logger{
-    LogEventBroadcaster broadcaster
+    LogMessageBroadcaster broadcaster
     Logger Logger()
     log()
   }
 
-  class LogEventBroadcaster{
-    LogEventBroadcaster getInstance()
-    LogEventBroadcaster(List<LogEventListener> subscribers)
-    List<LogEventListener> subscribers
+  class LogMessageBroadcaster{
+    LogMessageBroadcaster getInstance()
+    LogMessageBroadcaster(List<LogMessageListener> subscribers)
+    List<LogMessageListener> subscribers
   }
 
-  class LogEventListener{
+  class LogMessageListener{
     PrintWriter printWriter()
     filter()
     itemToString()
@@ -96,14 +96,14 @@ LogMessageBroadcaster.subscribe(
     LogMessageListener(
       name="everything out to console",
       printWriter= {PrintWriter(System.out, true)},
-      filter= (i:LogMessage)->true,
-      toString= (i:LogMessage)-> i.toString(),
+      filter= {true},
+      logMessageToString = {it.toString()},
     ),
     LogMessageListener(
       name="httpErrors",
       printWriter={PrintWriter(FileOutputStream(File("logs/http-error.log"),true),true)},
-      filter= (i:LogMessage)-> i.className=="HttpConnection" && i.channelName=="error",
-      toString= (i:LogMessage)-> i.toString(),
+      filter= {it.className=="HttpConnection" && it.channelName=="error"},
+      toString= (i:LogMessage)-> {it.toString()},
     ),
   )
 )
@@ -119,8 +119,8 @@ the subscribe method will add subscribers replacing the existing ones that have 
 val lel = LogMessageListener(
   name="some log event listener",
   printWriter= {PrintWriter(System.out,true)},
-  filter=(i:LogMessage)->Boolean,
-  toString= (i:LogMessage)-> "${i.timestamp} ${i.channelName.uppercase()} ${i.className} ${i.methodName} ${i.filename}:${i.lineNumber} ${i.message.toString()}",
+  filter={true},
+  toString= {i -> "${i.timestamp} ${i.channelName.uppercase()} ${i.className} ${i.methodName} ${i.filename}:${i.lineNumber} ${i.message.toString()}"},
 )
 ```
 receives `LogMessage`s from the `LogMessageBroadcaster`.
