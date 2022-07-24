@@ -14,6 +14,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <kotlin.version>1.7.0</kotlin.version>
+        <jacoco.version>0.8.7</jacoco.version>
+        <surefire.version>2.22.2</surefire.version>
     </properties>
 
     <repositories>
@@ -99,7 +101,7 @@
             -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${surefire.version}</version>
                 <configuration>
                     <includes>
                         <include>**/*Tests.java</include>
@@ -108,36 +110,34 @@
                     </includes>
                 </configuration>
             </plugin>
-
-<plugin>
-  <groupId>org.jacoco</groupId>
-  <artifactId>jacoco-maven-plugin</artifactId>
-  <version>0.8.6</version>
-  <executions>
-  	<execution>
-      	<id>prepare-agent</id>
-            <goals>
-            		<goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                <propertyName>surefireArgLine</propertyName>
-            </configuration>
-      </execution>
-      <execution>
-            <id>report</id>
-            <phase>test</phase>
-               <goals>
-               	<goal>report</goal>
-               </goals>
-               <configuration>
-<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-               </configuration>
-        </execution>
-    </executions>
- </plugin>
-
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                            <!--<configuration>
+                                <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
+                                <propertyName>surefireArgLine</propertyName>
+                            </configuration>-->
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <!--<configuration>
+                            <dataFile>${project.build.directory}/jacoco-ut.exec</dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                        </configuration>-->
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>

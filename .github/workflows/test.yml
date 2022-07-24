@@ -23,11 +23,11 @@ jobs:
     - name: test with maven
       run: |
         mvn -Dtest=github.alfu32.klog.*Test test
-        ls -la target/surefire-reports
+        ls -la target/site/jacoco/
     - name: Archive test report
       uses: actions/upload-artifact@v3
       with:
         name: coverage-reports
         path: |
-          target/surefire-reports/*
+          target/site/jacoco/**/*
 
