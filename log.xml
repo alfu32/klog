@@ -34,3 +34,99 @@
   <methodName>testLog</methodName>
   <message>message</message>
 </log>
+<log>
+  <timestamp>1658640153570</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658640976976</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658641223004</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658641446613</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658641620146</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658642248497</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658642541575</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>
+<log>
+  <timestamp>1658642860900</timestamp>
+  <channelName>debug</channelName>
+  <fileName>LoggerTest.kt</fileName>
+  <lineNumber>56</lineNumber>
+  <moduleName>null</moduleName>
+  <moduleVersion>null</moduleVersion>
+  <classLoaderName>app</classLoaderName>
+  <className>github.alfu32.klog.LoggerTest</className>
+  <methodName>testLog</methodName>
+  <message>message</message>
+</log>

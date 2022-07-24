@@ -21,4 +21,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: test with maven
-      run: mvn -Dtest=github.alfu32.klog.*Test test
+      run: |
+        mvn -Dtest=github.alfu32.klog.*Test test
+        ls -la target/site/jacoco/
+    - name: Archive test report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-reports
+        path: |
+          target/site/jacoco/**/*
+

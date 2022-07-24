@@ -30,11 +30,6 @@ jobs:
         name: dist-jar
         path: |
           target/**/*.jar
-    - name: Archive log artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: logs-text
-        path: |
-          log*.*
+          log*
     
 
