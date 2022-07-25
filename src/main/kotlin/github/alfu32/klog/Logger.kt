@@ -47,13 +47,13 @@ class LoggerMessageBroadcaster(
     }
   }
 }
-
+/*
 class PrintWriterFactory(
   val printWriterFn: ()->PrintWriter,
 ){
 
 }
-
+*/
 class LogMessageListener(
   val name: String,
   val printWriter: ()->PrintWriter,

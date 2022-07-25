@@ -24,6 +24,12 @@ internal class LoggerMessageBroadcasterTest {
                 filter={true},
                 logMessageToString={ it.toString() }
             ),
+            LogMessageListener.journaledFile(
+              name="factory-log",
+              filenameFn= {"factory-log.csv"},
+              logMessageToStringFn={it.toString()},
+              filterFn= {true},
+            ),
         ))
         println(lmb.subscribers)
     }
