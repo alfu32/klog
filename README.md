@@ -2,11 +2,11 @@
 ![build](https://github.com/alfu32/klog/actions/workflows/build.yml/badge.svg)
 ![test](https://github.com/alfu32/klog/actions/workflows/test.yml/badge.svg)
 
-# kLog[keelog] - light Kotlin Logging Framework
+# kLog - light Kotlin Logging Middleware
 
-logging framework written in Kotlin.
+JVM logging middleware written in Kotlin.
 
-## reactive architecture
+## architecture
 
 Flowchart
 ```mermaid
@@ -78,7 +78,9 @@ The configuration is done programmatically using the constructor.
 
 If you need a cofiguration based on text files (.properties,xml,json,ini,...etc. ) you can choose whatever solution you deem fit for the task:  parsing the text file configuration into a list of LogMessageListener.
 
-Note: Text based configurations are used to make the application admin-friendly. If you are the dev and the administrator at the same time there's no point on using text based config.
+Note: 
+----
+_Text based configurations are used to make the application admin-friendly. If you are the dev and the administrator at the same time there's no point on using text based config._
 
 If you need to bind into a well known logging framework, you can do it at the subscriber ( event listener ) level.
 
@@ -168,7 +170,29 @@ LogMessageListener.JSON_STRINGIFIER(i:LogMessage)->String
 ```kotlin
 LogMessageListener.XML_STRINGIFIER(i:LogMessage)->String
 ```
-# interop with other logging frameworks 
+# interoperability with other components/systems
+
+The message broadcaster is designed to sink all the messages to a print writer.
+The usual use case is to either print to the system console or to write them to files.
+
+If you need to propagate the message to other applications you can simply wrap a pipe in a print writer
+and subscribe with it to the broadcaster.
+
+Actually, you can wrap many things in this print writer: a SSE server, a http notification to monitoring applications.
+You can equip your writer with a change detector, in which case the receiver could be notified only when change occurs.
+
+# roadmap
+- [x] fully functional POC
+- [x] testing: coverage
+- [ ] nicetohave: badges (coverage, package managers )
+- [ ] improvement: documentation
+- [ ] integration: publish to maven central 
+- [ ] integration: publish to other artefact stores
+- [ ] testing: negative and edge cases
+- [ ] feature: parallel message dispatch
+- [ ] feature: more message stringifiers ( cbor, )
+- [ ] feature: change detector prototype
+
 # installation
 // TODO
 use  the script install.sh to clone and init a copy of this repository
