@@ -182,16 +182,16 @@ Actually, you can wrap many things in this print writer: a SSE server, a http no
 You can equip your writer with a change detector, in which case the receiver could be notified only when change occurs.
 
 # roadmap
-[v] fully functional POC
-[v] testing: coverage
-[ ] nicetohave: badges (coverage, package managers )
-[ ] improvement: documentation
-[ ] integration: publish to maven central 
-[ ] integration: publish to other artefact stores
-[ ] testing: negative and edge cases
-[ ] feature: parallel message dispatch
-[ ] feature: more message stringifiers ( cbor, )
-[ ] feature: change detector prototype
+- [v] fully functional POC
+- [v] testing: coverage
+- [ ] nicetohave: badges (coverage, package managers )
+- [ ] improvement: documentation
+- [ ] integration: publish to maven central 
+- [ ] integration: publish to other artefact stores
+- [ ] testing: negative and edge cases
+- [ ] feature: parallel message dispatch
+- [ ] feature: more message stringifiers ( cbor, )
+- [ ] feature: change detector prototype
 
 # installation
 // TODO
